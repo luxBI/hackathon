@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Inventory {% endblock %}
+{% block content %}
+
+<div class="card">
+   <h1>Inventory Form</h1>
+   <div class="card-body" style="width: 28rem;">
+      <form class="form" method="POST" action="/inventory">
+       {{ form.hidden_tag() }}
+       {{ wtf.form_field(form.farm_id) }}
+       {{ wtf.form_field(form.type) }}
+       {{ wtf.form_field(form.produce) }}
+       {{ wtf.form_field(form.buy_price) }}
+       {{ wtf.form_field(form.kilo) }}
+       {{ wtf.form_field(form.buy_dt) }}
+    <button class="btn btn-success" type="submit"> Input </button>
+  </form>
+   </div>
+</div>
+
+{% endblock %}
