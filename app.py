@@ -57,7 +57,7 @@ class Products(db.Model):
 """
 Initialize in Terminal with Python to make the User db above
 
->>> from main import db
+>>> from app import db
 >>> db.create_all()
 
 """
