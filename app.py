@@ -1,5 +1,5 @@
 """
-SGI
+Team BR2P
 
 pip3 install -r requirements.txt
 
@@ -78,14 +78,7 @@ class RegisterForm(FlaskForm):
                                                     EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
-class InventoryForm(FlaskForm):
-    farm_id = StringField('Farm_id', validators=[InputRequired(), Length(min=2, max=30)])
-    type = StringField('Type of Produce', validators=[InputRequired(), Length(min=2, max=30)])
-    produce = StringField('Produce', validators=[InputRequired(), Length(min=2, max=30)])
-    buy_price = FloatField('Buy Price', validators=[InputRequired()])
-    kilo = FloatField('Kilos', validators=[InputRequired()])
-
-class SalesForm(FlaskForm):
+class ProductsForm(FlaskForm):
     customer_email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     customer_name = StringField('Name', validators=[InputRequired(), Length(min=4, max=30)])
     customer_type = SelectField(u'Customer Type', validators=[InputRequired()], choices=[('Supplier', 'Supplier'), ('Restaurant', 'Restaurant'), ('Business', 'Business'), ('Corporation', 'Corporation')])
