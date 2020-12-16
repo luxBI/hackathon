@@ -128,6 +128,20 @@ def login():
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
     return render_template('login.html', form=form)
 
+@app.route('/marketplace')
+def marketplace():
+    """
+    Marketplace page
+    """
+    return render_template('marketplace.html')
+
+@app.route('/product')
+def product():
+    """
+    Product page
+    """
+    return render_template('product.html')
+
 @app.route('/newsfeed')
 def newsfeed():
     """

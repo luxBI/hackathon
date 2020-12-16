@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Team br2p {% endblock %}
+{% block content %}
+
+<section class="content">
+	<div class="container-fluid">
+
+		<br>
+		<div class="row">
+			<div class="col-3">
+                <div class="card">
+                    <div class="card-header">
+                        Search
+                    </div>
+                    <div class="card-body">
+                        <input type="text" class="form-control" placeholder="Enter Keyword">
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Search</button>
+                    </div>
+                </div>
+			</div>
+			<div class="col-9">
+                <div class="row">
+                    
+                    <div class="col-3">
+                        <a href="product" style="color: #212529;">
+                            <div class="card">
+                                <div class="card-body" style="max-height: 210px !important;">
+                                    <center>
+                                        <img style="height: 180px;" src="{{ url_for('static',filename='img/product3.jpg') }}" alt="Photo">
+                                    </center>
+                                </div>
+                                <div class="card-footer">
+                                    <span class="detail">$ 123.45</span>
+                                    <span class="detail">Gucci Shoulder Bag</span>
+                                    <span class="detail">USA</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/product4.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span class="detail">$ 123.45</span>
+                                    <span class="detail">Gucci Shoulder Bag</span>
+                                    <span class="detail">Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/product2.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span class="detail">$ 123.45</span>
+                                <span class="detail">Gucci Shoulder Bag</span>
+                                <span class="detail">Hong Kong</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/product1.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/0CGUHB011_2.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/0CGUHB011_6.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/0CGUHB011_4.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/0CGUHB011_7.jpg') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/avatar.png') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-body" style="max-height: 210px !important;">
+                                <center>
+                                    <img style="height: 180px;" src="{{ url_for('static',filename='img/avatar.png') }}" alt="Photo">
+                                </center>
+                            </div>
+                            <div class="card-footer">
+                                <span>$ 123.45</span>
+                                <br>
+                                <span>Gucci Shoulder Bag</span>
+                                <br>
+                                <span>Japan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+{% endblock %}
