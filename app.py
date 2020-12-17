@@ -18,6 +18,8 @@ from wtforms.validators import InputRequired, Email, Length, EqualTo
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_wtf.file import FileField, FileRequired
+
 import price_recommender
 import pandas as pd
 df = pd.read_csv('product_cost.csv',
@@ -46,6 +48,20 @@ class Customers(UserMixin, db.Model):
     username = db.Column(db.String(20))
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
+
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    middle_name = db.Column(db.String(20))
+    age = db.Column(db.String(20))
+    address = db.Column(db.String(20))
+    contact_number = db.Column(db.String(20))
+    birthday = db.Column(db.String(20))
+    credit_card_number = db.Column(db.String(20))
+    credit_card_ccv = db.Column(db.String(20))
+    credit_card_expire_month = db.Column(db.String(20))
+    credit_card_expire_year = db.Column(db.String(20))
+
+    contact_number = db.Column(db.String(20))
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -85,6 +101,22 @@ class RegisterForm(FlaskForm):
                                                     EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
+    first_name = StringField('Firstname', validators=[InputRequired(), Length(min=2, max=30)])
+    last_name = StringField('Lastname', validators=[InputRequired(), Length(min=1, max=30)])
+    middle_name = StringField('Middlename', validators=[InputRequired(), Length(min=2, max=30)])
+    age = StringField('Age', validators=[InputRequired(), Length(min=2, max=30)])
+    valid_id1 = FileField('Valid ID 1', validators=[FileRequired()])
+    valid_id2 = FileField('Valid ID 2', validators=[FileRequired()])
+    profile_picture = FileField('Profile Picture', validators=[FileRequired()])
+    address = StringField('Address', validators=[InputRequired(), Length(min=2, max=30)])
+    contact_number = StringField('Contact Number', validators=[InputRequired(), Length(min=2, max=30)])
+    birthday = StringField('Birthday', validators=[InputRequired(), Length(min=2, max=30)])
+
+    credit_card_number = StringField('Card Number', validators=[InputRequired(), Length(min=2, max=30)])
+    credit_card_ccv = StringField('CCV', validators=[InputRequired(), Length(min=2, max=30)])
+    credit_card_expire_month = StringField('Expire Month', validators=[InputRequired(), Length(min=2, max=30)])
+    credit_card_expire_year = StringField('Year', validators=[InputRequired(), Length(min=2, max=30)])
+
 class ProductsForm(FlaskForm):
     customer_email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     customer_name = StringField('Name', validators=[InputRequired(), Length(min=4, max=30)])
@@ -111,10 +143,22 @@ def signup():
 
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = Customers(username=form.username.data,
-                        email=form.email.data,
-                        password=hashed_password,
-                        )
+        new_user = Customers(
+            username=form.username.data,
+            email=form.email.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            middle_name=form.middle_name.data,
+            age=form.age.data,
+            address=form.address.data,
+            contact_number=form.contact_number.data,
+            birthday=form.birthday.data,
+            credit_card_number=form.credit_card_number.data,
+            credit_card_ccv=form.credit_card_ccv.data,
+            credit_card_expire_month=form.credit_card_expire_month.data,
+            credit_card_expire_year=form.credit_card_expire_year.data,
+            password=hashed_password,
+        )
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -166,12 +210,12 @@ def sell():
     return render_template('sell.html', form=form)
 
 @app.route('/calculator', methods=['GET','POST'])
-@login_required
+# @login_required
 def calculator():
     return render_template('calculator.html')
 
 @app.route('/estimate', methods=['GET','POST'])
-@login_required
+# @login_required
 def estimate():
     if request.method == 'POST':
         try:

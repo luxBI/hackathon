@@ -99,5 +99,27 @@
 <script src="{{ url_for('static',filename='plugins/moment/moment.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ url_for('static',filename='dist/js/adminlte.js') }}"></script>
+<script>
+    $(document).ready(function()
+    {
+        $('#Form-Calculator').on("submit", function(event)
+        {
+            event.preventDefault();
+
+            $.ajax(
+            {
+                'url'        : `/estimate`,
+                'method'     : 'POST',
+                'data'       : $(this).serialize(),
+                success      : function(data)
+                {
+                    $("#Output").html(`<h3>Recommended Price: ${data.a} - ${data.b} USD</h3>`);
+                    console.log(data);
+                }
+            });
+        });
+    });
+
+</script>
 </div>
 </html>

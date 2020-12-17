@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block title %}Home Page {% endblock %}
 {% block content %}
 
-<form method="POST" action="/estimate">
+<form id="Form-Calculator">
 
 <div class="jumbotron jumbotron-fluid">
     <div class="card-deck">
@@ -119,13 +119,14 @@
 
 
 	<br>
-	<div class="center-screen">
-
-
-     <input class="btn btn-primary" type="submit" value="Calculate Estimate Price">
-
-
-	</div>
+	<div class="row">
+        <div class="col-3">
+            <input class="btn btn-primary" type="submit" value="Calculate Estimate Price">
+        </div>
+        <div class="col-9">
+            <div id="Output"></div>
+        </div>
+    </div>
 
 </form>
 
