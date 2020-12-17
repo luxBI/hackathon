@@ -11,15 +11,21 @@ requirements.txt
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-from wtforms import DateField, StringField, PasswordField, BooleanField, SelectField, FloatField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, FloatField
 from wtforms.fields.html5 import DateField
 
 from wtforms.validators import InputRequired, Email, Length, EqualTo
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
+import price_recommender
+import pandas as pd
+df = pd.read_csv('product_cost.csv',
+                 parse_dates=[
+                              'acquire_date',
+                              'published_date'
+                 ])
+df_raw = df.loc[~df.index_id.isna()].copy()
 #--------------------------------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__) # Start of Flask App
 bootstrap = Bootstrap(app) # For WTForms
@@ -40,21 +46,6 @@ class Customers(UserMixin, db.Model):
     username = db.Column(db.String(20))
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
-
-    first_name = db.Column(db.String(20))
-    last_name = db.Column(db.String(20))
-    middle_name = db.Column(db.String(20))
-    age = db.Column(db.String(20))
-    address = db.Column(db.String(20))
-    contact_number = db.Column(db.String(20))
-    birthday = db.Column(db.String(20))
-    credit_card_number = db.Column(db.String(20))
-    credit_card_ccv = db.Column(db.String(20))
-    credit_card_expire_month = db.Column(db.String(20))
-    credit_card_expire_year = db.Column(db.String(20))
-
-    contact_number = db.Column(db.String(20))
-
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -90,23 +81,6 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=30)])
-
-    first_name = StringField('Firstname', validators=[InputRequired(), Length(min=2, max=30)])
-    last_name = StringField('Lastname', validators=[InputRequired(), Length(min=1, max=30)])
-    middle_name = StringField('Middlename', validators=[InputRequired(), Length(min=2, max=30)])
-    age = StringField('Age', validators=[InputRequired(), Length(min=2, max=30)])
-    valid_id1 = FileField('Valid ID 1', validators=[FileRequired()])
-    valid_id2 = FileField('Valid ID 2', validators=[FileRequired()])
-    profile_picture = FileField('Profile Picture', validators=[FileRequired()])
-    address = StringField('Address', validators=[InputRequired(), Length(min=2, max=30)])
-    contact_number = StringField('Contact Number', validators=[InputRequired(), Length(min=2, max=30)])
-    birthday = StringField('Birthday', validators=[InputRequired(), Length(min=2, max=30)])
-
-    credit_card_number = StringField('Card Number', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_ccv = StringField('CCV', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_expire_month = StringField('Expire Month', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_expire_year = StringField('Year', validators=[InputRequired(), Length(min=2, max=30)])
-
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80),
                                                     EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
@@ -128,7 +102,7 @@ class ProductsForm(FlaskForm):
 @app.route('/')
 def index():
     #user = db.session.query(Customers.username)
-    return render_template('home.html')
+    return render_template('index.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -137,22 +111,10 @@ def signup():
 
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = Customers(
-            username=form.username.data,
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            middle_name=form.middle_name.data,
-            age=form.age.data,
-            address=form.address.data,
-            contact_number=form.contact_number.data,
-            birthday=form.birthday.data,
-            credit_card_number=form.credit_card_number.data,
-            credit_card_ccv=form.credit_card_ccv.data,
-            credit_card_expire_month=form.credit_card_expire_month.data,
-            credit_card_expire_year=form.credit_card_expire_year.data,
-            password=hashed_password,
-        )
+        new_user = Customers(username=form.username.data,
+                        email=form.email.data,
+                        password=hashed_password,
+                        )
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -168,24 +130,10 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('profile'))
         return '<h1>Invalid username or password</h1>'
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
     return render_template('login.html', form=form)
-
-@app.route('/marketplace')
-def marketplace():
-    """
-    Marketplace page
-    """
-    return render_template('marketplace.html')
-
-@app.route('/product')
-def product():
-    """
-    Product page
-    """
-    return render_template('product.html')
 
 @app.route('/newsfeed')
 def newsfeed():
@@ -196,43 +144,57 @@ def newsfeed():
 
 @app.route('/profile', methods=['GET','POST'])
 @login_required
-def dashboard():
+def profile():
+
     return render_template('profile.html')
 
-@app.route('/basket', methods=['GET', 'POST'])
-def basket():
-    form = SalesForm()
-    if form.validate_on_submit():
-        record = Sales(customer_email=form.customer_email.data,
-                       customer_name=form.customer_name.data,
-                       customer_type=form.customer_type.data,
-                       customer_produce=form.customer_produce.data,
-                       customer_price=form.customer_price.data,
-                       customer_kilo=form.customer_kilo.data,
-                       customer_address=form.customer_address.data,
-                       customer_contact=form.customer_contact.data,
-                       customer_delivery_dt=form.customer_delivery_dt.data,
-                       )
-        db.session.add(record)
-        db.session.commit()
-        return redirect(url_for('thanks'))
-    return render_template('basket.html', form=form)
-
-@app.route('/inventory', methods=['GET', 'POST'])
-def inventory():
+@app.route('/sell', methods=['GET','POST'])
+@login_required
+def sell():
     form = InventoryForm()
     if form.validate_on_submit():
         record = Inventory(farm_id=form.farm_id.data,
-                       type=form.type.data,
-                       produce=form.produce.data,
-                       buy_price=form.buy_price.data,
-                       kilo=form.kilo.data,
-                       buy_dt=form.buy_dt.data,
-                       )
+                           type=form.type.data,
+                           produce=form.produce.data,
+                           buy_price=form.buy_price.data,
+                           kilo=form.kilo.data,
+                           buy_dt=form.buy_dt.data,
+                           )
         db.session.add(record)
         db.session.commit()
         return redirect(url_for('thanks'))
-    return render_template('inventory.html', form=form)
+    return render_template('sell.html', form=form)
+
+@app.route('/calculator', methods=['GET','POST'])
+@login_required
+def calculator():
+    return render_template('calculator.html')
+
+@app.route('/estimate', methods=['GET','POST'])
+@login_required
+def estimate():
+    if request.method == 'POST':
+        try:
+            product_name = request.form['product_name']
+            rating = request.form['rating']
+            brand = request.form['brand']
+            product_cat = request.form['product_cat']
+            parent_cat = request.form['parent_cat']
+            size = request.form['size']
+            brand = brand.lower()
+            product_cat = product_cat.lower()
+
+            pred = price_recommender.recommend_price(df_raw, product_name, rating, brand, product_cat, parent_cat, size)
+            a,b, = pred
+            print(a)
+            print(b)
+
+        except ValueError as e:
+            print(e)
+            return 'Please check the values!'
+    return render_template('estimate.html',a=a,b=b)
+
+
 
 
 @app.route('/logout')
