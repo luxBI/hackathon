@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Home Page {% endblock %}
+{% block content %}
+
+<form method="POST" action="/estimate">
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="card-deck">
+        <div class="card">
+             <div class="card-body">
+        <div class="container">
+            <div class = 'form-group'>
+            <!input type="text" name='brand'>
+            <select class="custom-select my-1 mr-sm-2" name="brand" id="brand_list">
+                 <option value="louis vuitton">Louis Vuitton </option>
+                 <option value="gucci">Gucci</option>
+                 <option value="prada">Prada</option>
+                 <option value="chanel">Chanel</option>
+                 <option value="fendi">Fendi</option>
+                 <option value="burberry">Burberry</option>
+                 <option value="hermes">Hermes</option>
+                 <option value="dior">Dior</option>
+                 <option value="ysl">YSL</option>
+                 <option value="celine">Celine</option>
+                 <option value="bottega">Bottega Veneta</option>
+                 <option value="celine">Celine</option>
+                 <option value="mcm">MCM</option>
+                 <option value="balenciaga">Balenciaga</option>
+                 <option value="chloe">Chloe</option>
+                 <option value="cartier">Cartier </option>
+                 <option value="ferragamo">Ferragamo </option>
+                        </select>
+            <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="card">
+	<div class="container">
+        <div class="card-body">
+		<div class = 'form-group'>
+        <select class="custom-select my-1 mr-sm-2" name="product_cat" id="subcategory_list">
+             <option value="tote bag">Tote Bag</option>
+             <option value="shoulder bag">Shoulder Bag</option>
+             <option value="crossbody bag">Crossbody Bag</option>
+             <option value="handbag">Handbag</option>
+             <option value="satchel">Satchel</option>
+             <option value="travel bag">Travel Bag</option>
+             <option value="baguette">Baguette</option>
+             <option value="boston bag">Boston Bag</option>
+             <option value="backpack">Backpack</option>
+             <option value="bucket bag">Bucket Bag</option>
+             <option value="long wallets">Long Wallets</option>
+             <option value="hobo bag">Hobo Bag</option>
+             <option value="clutch bag">Clutch Bag</option>
+             <option value="belt bag">Belt Bag</option>
+             <option value="sunglasses">Sunglasses</option>
+             <option value="pouch">Pouch </option>
+             <option value="scarves">Scarves </option>
+					</select>
+		<br>
+        </div>
+		    </div>
+          </div>
+	    </div>
+    </div>
+</div>
+
+
+    <br>
+
+<div class="card-deck">
+  <div class ="card border-danger mb-3" style="max-width: 18rem;">
+    <div class="card-body text-danger">
+
+	<h5 class="card-title">product_name</h5>
+	<div class = 'form-group'>
+                    <label for='Product Cost'></label>
+                    <input type="text" name='product_name'>
+                 </div>
+      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
+    </div>
+  </div>
+
+
+  <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+    <div class="card-body text-primary">
+      <h5 class="card-title">rating</h5>
+      <div class = 'form-group'>
+              <label for='Listing Price'></label>
+              <input type="text" name='rating'>
+       </div>
+      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
+    </div>
+  </div>
+
+  <div class="card border-dark mb-3" style="max-width: 18rem;">
+
+    <div class="card-body">
+      <h5 class="card-title">parent_cat</h5>
+	  <div class = 'form-group'>
+                    <label for='Base Selling Price'></label>
+                    <input type="text" name='parent_cat'>
+                  </div>
+      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
+    </div>
+      <div class="card-body">
+      <h5 class="card-title">size</h5>
+	  <div class = 'form-group'>
+                    <label for='Base Selling Price'></label>
+                    <input type="text" name='size'>
+                  </div>
+      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
+    </div>
+  </div>
+
+ </div>
+
+
+	<br>
+	<div class="center-screen">
+
+
+     <input class="btn btn-primary" type="submit" value="Calculate Estimate Price">
+
+
+	</div>
+
+</form>
+
+{% endblock %}
