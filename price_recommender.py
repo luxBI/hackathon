@@ -7,6 +7,7 @@ from collections import defaultdict
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from scipy.spatial.distance import euclidean
 
 def recommend_price(df_XY, product_name, rating, brand_name, product_cat, parent_cat, size):
   X = df_XY.iloc[:, :5]
