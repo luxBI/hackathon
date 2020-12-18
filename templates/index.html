@@ -1,127 +1,138 @@
-<!-- Sample Edit -->
-<!-- Edit push to main -->
-
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block title %}Home Page {% endblock %}
 {% block content %}
 
-<form method="POST" action="/predict">
+<section class="content">
+	<div class="container-fluid">
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="card-deck">
-        <div class="card">
-             <div class="card-body">
-        <div class="container">
-            <div class = 'form-group'>
-            <!input type="text" name='brand'>
-            <select class="custom-select my-1 mr-sm-2" name="brand" id="brand_list">
-                 <option value="1">Louis Vuitton </option>
-                 <option value="2">Gucci</option>
-                 <option value="3">Prada</option>
-                 <option value="4">Chanel</option>
-                 <option value="5">Fendi</option>
-                 <option value="6">Burberry</option>
-                 <option value="7">Hermes</option>
-                 <option value="8">Dior</option>
-                 <option value="9">YSL</option>
-                 <option value="10">Celine</option>
-                 <option value="11">Bottega Veneta</option>
-                 <option value="12">Celine</option>
-                 <option value="15">MCM</option>
-                 <option value="16">Balenciaga</option>
-                 <option value="17">Chloe</option>
-                 <option value="18">Cartier </option>
-                 <option value="19">Ferragamo </option>
-                        </select>
-            <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <div class="card">
-	<div class="container">
-        <div class="card-body">
-		<div class = 'form-group'>
-        <select class="custom-select my-1 mr-sm-2" name="subcategory" id="subcategory_list">
-             <option value="1">Tote Bag</option>
-             <option value="2">Shoulder Bag</option>
-             <option value="3">Crossbody Bag</option>
-             <option value="4">Handbag</option>
-             <option value="5">Satchel</option>
-             <option value="6">Travel Bag</option>
-             <option value="7">Baguette</option>
-             <option value="8">Boston Bag</option>
-             <option value="9">Backpack</option>
-             <option value="10">Bucket Bag</option>
-             <option value="11">Long Wallets</option>
-             <option value="12">Hobo Bag</option>
-             <option value="13">Clutch Bag</option>
-             <option value="14">Belt Bag</option>
-             <option value="15">Sunglasses</option>
-             <option value="16">Pouch </option>
-             <option value="17">Scarves </option>
-					</select>
 		<br>
-        </div>
-		    </div>
-          </div>
-	    </div>
-    </div>
-</div>
+		<div class="row">
+			<div class="col-3">
+				
+			</div>
+			<div class="col-6">
 
+				<div class="card">
+					<div class="card-header">
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Billy</a>
+							</span>
+							<span class="description">Public - 7:45 PM today</span>
+						</div>
+					</div>
+					<div class="card-body">
+						<p>Check out this bag !!!</p>
+						<center>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product4.jpg') }}" alt="Photo">
+								</div>
+								<div class="col-sm-3">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product2.jpg') }}" alt="Photo">
+								</div>
+								<div class="col-sm-3">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product3.jpg') }}" alt="Photo">
+								</div>
+								<div class="col-sm-3">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product1.jpg') }}" alt="Photo">
+								</div>
+							</div>
+						</center>
+					</div>
+					<div class="card-footer">
+						<p>
+							<a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+							<a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+							<span class="float-right">
+								<a href="#" class="link-black text-sm">
+									<i class="far fa-comments mr-1"></i> Comments (5)
+								</a>
+							</span>
+						</p>
+						<p>
+							<input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+						</p>
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Matt</a>
+							</span>
+							<span class="description">Hello World</span>
+						</div>
+						<br><br>
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Billy</a>
+							</span>
+							<span class="description">Hello World</span>
+						</div>
+					</div>
+				</div>
 
-    <br>
+				<div class="card">
+					<div class="card-header">
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Pau</a>
+							</span>
+							<span class="description">Public - 1:45 PM today</span>
+						</div>
+					</div>
+					<div class="card-body">
+						<p>Check out this bag !!!</p>
+						<center>
+							<div class="row mb-3">
+								<div class="col-sm-6">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product3.jpg') }}" alt="Photo">
+								</div>
+								<div class="col-sm-6">
+									<img style="width: 150px;" src="{{ url_for('static',filename='img/product1.jpg') }}" alt="Photo">
+								</div>
+							</div>
+						</center>
+					</div>
+					<div class="card-footer">
+						<p>
+							<a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+							<a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+							<span class="float-right">
+								<a href="#" class="link-black text-sm">
+									<i class="far fa-comments mr-1"></i> Comments (5)
+								</a>
+							</span>
+						</p>
+						<p>
+							<input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+						</p>
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Pau</a>
+							</span>
+							<span class="description">Hello World</span>
+						</div>
+						<br><br>
+						<div class="user-block">
+							<img src="{{ url_for('static',filename='img/avatar.png') }}" class="img-circle img-bordered-sm" alt="User Image">
+							<span class="username">
+								<a href="#">Rhadnie</a>
+							</span>
+							<span class="description">Hello World</span>
+						</div>
+					</div>
+				</div>
 
-<div class="card-deck">
-  <div class ="card border-danger mb-3" style="max-width: 18rem;">
-    <div class="card-body text-danger">
-
-	<h5 class="card-title">Product Cost</h5>
-	<div class = 'form-group'>
-                    <label for='Product Cost'></label>
-                    <input type="text" name='product_cost'>
-                 </div>
-      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
-    </div>
-  </div>
-
-
-  <div class="card border-primary mb-3" style="max-width: 18rem;">
-
-    <div class="card-body text-primary">
-      <h5 class="card-title">Listing Price</h5>
-      <div class = 'form-group'>
-              <label for='Listing Price'></label>
-              <input type="text" name='listing_price'>
-       </div>
-      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
-    </div>
-  </div>
-
-  <div class="card border-dark mb-3" style="max-width: 18rem;">
-
-    <div class="card-body">
-      <h5 class="card-title">Base Selling Price</h5>
-	  <div class = 'form-group'>
-                    <label for='Base Selling Price'></label>
-                    <input type="text" name='base_selling_price'>
-                  </div>
-      <p class="card-text"><small class="text-muted">Value in Dollars</small></p>
-    </div>
-  </div>
-
- </div>
-
-
-	<br>
-	<div class="center-screen">
-
-
-     <input class="btn btn-primary" type="submit" value="Submit">
-
+			</div>
+			<div class="col-3">
+				
+			</div>
+		</div>
 
 	</div>
-
-</form>
+</section>
 
 {% endblock %}

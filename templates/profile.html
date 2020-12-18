@@ -29,20 +29,20 @@
                         <img class="profile-user-img img-fluid img-circle" src="{{ url_for('static',filename='img/avatar.png') }}" alt="User profile picture">
                     </div>
 
-                    <h3 class="profile-username text-center">Billy Marte</h3>
+                    <h3 class="profile-username text-center">{{ user.username }}</h3>
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Email</b> <a class="float-right">billy@upteamco.com</a>
+                            <b>Email</b> <a class="float-right">{{ user.email }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Address</b> <a class="float-right">Japan</a>
+                            <b>Address</b> <a class="float-right">{{ user.address }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Birthday</b> <a class="float-right">12/12/12</a>
+                            <b>Age</b> <a class="float-right">{{ user.age }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Contact Number</b> <a class="float-right">09123123123123</a>
+                            <b>Contact Number</b> <a class="float-right">{{ user.contact_number }}</a>
                         </li>
                     </ul>
 
@@ -208,23 +208,17 @@
                                         <div class="form-group">
                                             <label style="width: 100%;">Sub Category</label>
                                             <select class="custom-select" name="product_cat" id="product_cat_list">
-                                                <option value="tote bag">Tote Bag</option>
-                                                <option value="shoulder bag">Shoulder Bag</option>
-                                                <option value="crossbody bag">Crossbody Bag</option>
+                                                <option value="tote_bag">Tote Bag</option>
+                                                <option value="shoulder_bag">Shoulder Bag</option>
                                                 <option value="handbag">Handbag</option>
                                                 <option value="satchel">Satchel</option>
-                                                <option value="travel bag">Travel Bag</option>
-                                                <option value="baguette">Baguette</option>
-                                                <option value="boston bag">Boston Bag</option>
+                                                <option value="boston_bag">Boston Bag</option>
                                                 <option value="backpack">Backpack</option>
-                                                <option value="bucket bag">Bucket Bag</option>
-                                                <option value="long wallets">Long Wallets</option>
-                                                <option value="hobo bag">Hobo Bag</option>
-                                                <option value="clutch bag">Clutch Bag</option>
-                                                <option value="belt bag">Belt Bag</option>
-                                                <option value="sunglasses">Sunglasses</option>
-                                                <option value="pouch">Pouch </option>
-                                                <option value="scarves">Scarves </option>
+                                                <option value="bucket_bag">Bucket Bag</option>
+                                                <option value="hobo_bag">Hobo Bag</option>
+                                                <option value="clutch_bag">Clutch Bag</option>
+                                                <option value="belt_bag">Belt Bag</option>
+                                                <option value="business_bag">Business Bag</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
