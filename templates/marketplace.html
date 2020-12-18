@@ -26,17 +26,21 @@
                     
                     {% for item in items %}
                         <div class="col-3">
-                            <a href="product" style="color: #212529;">
+                            <a href="product?product_id={{item[5]}}" style="color: #212529;">
                                 <div class="card">
                                     <div class="card-body" style="max-height: 210px !important;">
                                         <center>
-                                            <img style="height: 180px;" src="{{item.photo_path}}" alt="Photo">
+                                            <img style="height: 180px;" src="{{item[3]}}" alt="Photo">
                                         </center>
                                     </div>
                                     <div class="card-footer">
-                                        <span class="detail">$ {{item.price}}</span>
-                                        <span class="detail">{{item.product_name}}</span>
-                                        <span class="detail">USA</span>
+                                        <span class="detail">$ {{item[2]}}</span>
+                                        <span class="detail">{{item[1]}}</span>
+                                        <span class="detail">{{item[4]}}</span>
+                                        <span class="detail">
+                                            <i class="fas fa-map-marker" aria-hidden="true"></i> 
+                                            {{item[0]}}
+                                        </span>
                                     </div>
                                 </div>
                             </a>
