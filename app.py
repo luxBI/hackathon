@@ -56,7 +56,7 @@ class Customers(UserMixin, db.Model):
     credit_card_expire_month = db.Column(db.String(20))
     credit_card_expire_year = db.Column(db.String(20))
 
-    contact_number = db.Column(db.String(20))
+    #contact_number = db.Column(db.String(20))
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -100,9 +100,9 @@ class RegisterForm(FlaskForm):
     last_name = StringField('Lastname', validators=[InputRequired(), Length(min=1, max=30)])
     middle_name = StringField('Middlename', validators=[InputRequired(), Length(min=2, max=30)])
     age = StringField('Age', validators=[InputRequired(), Length(min=2, max=30)])
-    valid_id1 = FileField('Valid ID 1', validators=[FileRequired()])
-    valid_id2 = FileField('Valid ID 2', validators=[FileRequired()])
-    profile_picture = FileField('Profile Picture', validators=[FileRequired()])
+    valid_id1 = FileField('Valid ID 1')
+    valid_id2 = FileField('Valid ID 2')
+    profile_picture = FileField('Profile Picture')
     address = StringField('Address', validators=[InputRequired(), Length(min=2, max=30)])
     contact_number = StringField('Contact Number', validators=[InputRequired(), Length(min=2, max=30)])
     birthday = StringField('Birthday', validators=[InputRequired(), Length(min=2, max=30)])
