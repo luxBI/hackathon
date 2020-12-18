@@ -74,17 +74,20 @@ class Customers(UserMixin, db.Model):
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    customer_email = db.Column(db.String(50))
-    customer_id = db.Column(db.String(50))
-    customer_name = db.Column(db.String(50))
-    customer_type = db.Column(db.String(50))
-    customer_produce = db.Column(db.String(50))
-    customer_price = db.Column(db.Float)
-    customer_kilo = db.Column(db.Float)
-    customer_address = db.Column(db.String(200))
-    customer_contact = db.Column(db.Float)
-    customer_sale_dt = db.Column(db.Float)
-    customer_delivery_dt = db.Column(db.DateTime)
+    customer_id = db.Column(db.Integer)
+    product_name = db.Column(db.String(50))
+    parent_category = db.Column(db.String(50))
+    sub_category = db.Column(db.String(50))
+    brand = db.Column(db.String(50))
+    style = db.Column(db.String(50))
+    rating = db.Column(db.String(50))
+    size = db.Column(db.String(50))
+    material = db.Column(db.String(50))
+    retail_price = db.Column(db.String(50))
+    color = db.Column(db.String(50))
+    description = db.Column(db.String(220))
+    price = db.Column(db.String(50))
+    photo_path = db.Column(db.String(50))
 
 """
 Initialize in Terminal with Python to make the User db above
@@ -141,7 +144,6 @@ class ProductsForm(FlaskForm):
 # Connecting to www.website.com/home
 @app.route("/home")
 @app.route('/')
-@login_required
 def index():
     #user = db.session.query(Customers.username)
     return render_template('index.html', user=current_user)
@@ -239,7 +241,9 @@ def marketplace():
     """
     Marketplace page
     """
-    return render_template('marketplace.html', user=current_user)
+
+    items = Products.query
+    return render_template('marketplace.html', user=current_user, items=items)
 
 @app.route('/product')
 @login_required
@@ -252,7 +256,8 @@ def product():
 @app.route('/profile', methods=['GET','POST'])
 @login_required
 def profile():
-    return render_template('profile.html', user=current_user)
+    items = Products.query.filter_by(customer_id=current_user.id)
+    return render_template('profile.html', user=current_user, items=items)
 
 @app.route('/sell', methods=['GET','POST'])
 @login_required
@@ -290,6 +295,12 @@ def add_item():
             product_cat = request.form['product_cat']
             parent_cat = request.form['parent_cat']
             size = request.form['size']
+            style = request.form['style']
+            material = request.form['material']
+            retail_price = request.form['retail_price']
+            color = request.form['color']
+            description = request.form['description']
+            price = request.form['price']
             brand = brand.lower()
             product_cat = product_cat.lower()
 
@@ -299,6 +310,27 @@ def add_item():
                 product_photo_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
                 uploaded_file.save(product_photo_path)
                 print(product_photo_path)
+
+                if request.form['button_name'] == "upload":
+                    new_product = Products(
+                        customer_id = current_user.id,
+                        product_name = product_name,
+                        parent_category = parent_cat,
+                        sub_category = product_cat,
+                        brand = brand,
+                        style = style,
+                        rating = rating,
+                        size = size,
+                        material = material,
+                        retail_price = retail_price,
+                        color = color,
+                        description = description,
+                        price = price,
+                        photo_path = product_photo_path,
+                    )
+                    db.session.add(new_product)
+                    db.session.commit()
+                    return jsonify({'message': 'Upload success!!!'})
 
                 vectorize = vectorize_image_ver2.vectorize_image(product_photo_path)
                 print(vectorize)
@@ -378,6 +410,7 @@ def add_item():
 
         except ValueError as e:
             return jsonify({'message': 'Please check the values!'})
+
     return jsonify({'a': a, 'b': b, 'message': ""})
 
 
