@@ -175,14 +175,26 @@
             readURL(this);
         });
 
+        $("#Profile-Picture").change(function() {
+            readURL(this, "Profile-Picture-Image");
+        });
+
+        $("#Valid-ID-1").change(function() {
+            readURL(this, "Valid-ID-1-Image");
+        });
+
+        $("#Valid-ID-2").change(function() {
+            readURL(this, "Valid-ID-2-Image");
+        });
+
     });
 
-    function readURL(input) {
+    function readURL(input, imageElement) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function(e) {
-            $('#blah').attr('src', e.target.result);
+            $(`#${imageElement}`).attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]); // convert to base64 string
