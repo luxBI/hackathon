@@ -63,20 +63,29 @@
                     </form>
 
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                            <!-- <li class="dropdown user user-menu">
-                                <a href="#">
+                        {% if user: %}
+                            <li class="nav-item user user-menu" style="padding-top: 7px;">
+                                <a href="profile">
                                     <img src="{{ url_for('static',filename='img/avatar.png') }}" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Billy</span>
+                                    <span class="hidden-xs">{{ user.username }}</span>
                                 </a>
-                            </li> -->
-                        
-                        <li class="nav-item">
-                            <a href="login" class="nav-link">Login</a>
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="signup" class="nav-link">Signup</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="logout" class="nav-link">Logout</a>
+                            </li>
+
+                        {% else: %}
+                        
+                            <li class="nav-item">
+                                <a href="login" class="nav-link">Login</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="signup" class="nav-link">Signup</a>
+                            </li>
+
+                        {% endif %}
 
                     </ul>
                 </div>
