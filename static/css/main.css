@@ -21,12 +21,6 @@ span.detail
     white-space:nowrap;
 }
 
-.nav-link.active
-{
-    color: #fff !important;
-    background-color: #612847 !important;
-}
-
 .slider-box {
     width: 90%; 
     margin: 25px auto
