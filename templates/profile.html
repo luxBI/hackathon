@@ -70,6 +70,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Product Name</th>
+                                <th>Price</th>
                                 <th>Brand</th>
                                 <th>Category</th>
                                 <th>Color</th>
@@ -78,39 +79,20 @@
                             </tr>
                         </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product4.jpg') }}" class="user-image" alt="Product Image">
-                            </td>
-                            <td>Hello World</td>
-                            <td>Chanel</td>
-                            <td>Shoulder Bag</td>
-                            <td>Red</td>
-                            <td>10</td>
-                            <td>A+</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product1.jpg') }}" class="user-image" alt="Product Image">
-                            </td>
-                            <td>Hello World2</td>
-                            <td>Chanel</td>
-                            <td>Shoulder Bag</td>
-                            <td>Blue</td>
-                            <td>15</td>
-                            <td>A+</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product1.jpg') }}" class="user-image" alt="Product Image">
-                            </td>
-                            <td>Hello World2</td>
-                            <td>Chanel</td>
-                            <td>Shoulder Bag</td>
-                            <td>Blue</td>
-                            <td>15</td>
-                            <td>A+</td>
-                        </tr>
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    <img style="width: 50px;" src="{{item.photo_path}}" class="user-image" alt="Product Image">
+                                </td>
+                                <td>{{item.product_name}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.brand}}</td>
+                                <td>{{item.parent_category}} - {{item.sub_category}}</td>
+                                <td>{{item.color}}</td>
+                                <td>{{item.size}}</td>
+                                <td>{{item.rating}}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
 
@@ -246,7 +228,7 @@
                                         <label style="width: 100%;" for="">Description</label>
                                     </div>
                                     <div class="col-10">
-                                        <textarea name="" style="width: 100%;"></textarea>
+                                        <textarea name="description" style="width: 100%;"></textarea>
                                     </div>
                                 </div>
 
@@ -277,11 +259,15 @@
                                 
                             </div>
                             <div class="col-2">
-                                <button class="btn btn-info float-right" type="submit">
+                                <button id="Process-Item" class="btn btn-info float-right" type="submit">
                                     Proccess Item
+                                </button>
+                                <button id="Upload-Item" class="btn btn-info float-right" type="submit">
+                                    Upload Item
                                 </button>
                             </div>
                         </div>
+                        <input type="hidden" name="button_name" id="Button-Name" value="process">
 
                     </form>
                     

@@ -3,21 +3,47 @@
 {% block title %} Login {% endblock %}
 {% block content %}
 
-<br>
+<br><br>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        
 
-  <div class="container">
-    <form class="form-signin" method="POST" action="/login">
-      <h2 class="form-signin-heading">Login</h2>
-      <br>
-      {{ form.hidden_tag() }}
-      {{ wtf.form_field(form.username) }}
-      {{ wtf.form_field(form.password) }}
-      {{ wtf.form_field(form.remember) }}
-      <br>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+        <div class="login-box" style="width: 100%;">
+
+            <div class="card">
+                <div class="card-body">
+                    <br>
+                    <center>
+                        <h3>Sign in to start your session</h3>
+                    </center>
+        
+                    <form class="form-signin" method="POST" action="/login">
+                        <br>
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12">
+                                {{ wtf.form_field(form.username) }}
+                            </div>
+                            <div class="col-12">
+                                {{ wtf.form_field(form.password) }}
+                            </div>
+                            <div class="col-12">
+                                {{ wtf.form_field(form.remember) }}
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form>
+                </div>
+            </div>
+
+
+    </div>
+    <div class="col-4"></div>
+    <br><br><br>
 </div>
 
-<br>
-
+<br><br><br>
 {% endblock %}
