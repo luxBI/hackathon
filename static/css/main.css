@@ -17,6 +17,7 @@
 
 span.detail
 {
+    margin-bottom: -4px;
     display:block;
     white-space:nowrap;
 }
@@ -49,4 +50,9 @@ input {
     width: 100%;
     margin-bottom: 30px;
     margin-top: 30px;
+}
+
+.mySlides
+{
+    display:none;
 }
