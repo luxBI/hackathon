@@ -14,10 +14,18 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='plugins/daterangepicker/daterangepicker.css') }}">
 
+    <link rel="stylesheet" href="{{ url_for('static',filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+
     <link href="{{ url_for('static',filename='css/font.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-collapse layout-top-nav">
+    <div id="loadingDiv">
+        <img src="{{ url_for('static',filename='img/loading.gif') }}" alt="">
+    </div>
     <div class="wrapper">
 
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
@@ -98,6 +106,12 @@
 
 <script src="{{ url_for('static',filename='plugins/moment/moment.min.js') }}"></script>
 <script src="{{ url_for('static',filename='plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+<script src="{{ url_for('static',filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('static',filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+
 <script src="{{ url_for('static',filename='dist/js/adminlte.js') }}"></script>
 <script>
     $(document).ready(function()
@@ -105,6 +119,8 @@
         $('#Form-Calculator').on("submit", function(event)
         {
             event.preventDefault();
+            $("#Price-Slider").hide();
+            $("#Price-Recommended").html("");
 
             $.ajax(
             {
@@ -113,12 +129,65 @@
                 'data'       : $(this).serialize(),
                 success      : function(data)
                 {
-                    $("#Output").html(`<h3>Recommended Price: ${data.a} - ${data.b} USD</h3>`);
+
+                    if (data.message == "")
+                    {
+                        $("#Price-Recommended").html(`<h3>Recommended Price: ${data.a} - ${data.b} USD</h3>`);
+                        $("#Price-Slider").show();
+
+                        let priceFrom = data.a - 500;
+                        let priceTo = data.b + 500;
+                        priceFrom = priceFrom < 1 ? 1 : priceFrom;
+                        $("#priceRange").val(data.a);
+                        $("#price-range").slider({
+                            range: false, 
+                            value: data.a, 
+                            min: priceFrom, 
+                            max: priceTo, 
+                            slide: function(event, ui) 
+                            {
+                                $("#priceRange").val(ui.value);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alert(`${data.message}`);
+                    }
                     console.log(data);
+
+                },
+                beforeSend : function(){
+                    $('#loadingDiv').show();
+                },
+                complete   : function(){
+                    $('#loadingDiv').hide();
                 }
             });
         });
+
+        $('#Table-My-Items').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+
+        $("#imgInp").change(function() {
+            readURL(this);
+        });
+
     });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+            $('#blah').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
 
 </script>
 </div>

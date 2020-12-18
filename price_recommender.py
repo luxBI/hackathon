@@ -51,4 +51,4 @@ def recommend_price(df_XY, product_name, rating, brand_name, product_cat, parent
                                 euclidean)
   product_cost_result = Y.iloc[search_results]
 
-  return product_cost_result.min(), product_cost_result.max()
+  return product_cost_result.min().round(), product_cost_result.max().round()

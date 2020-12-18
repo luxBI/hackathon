@@ -1,9 +1,309 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %} Profile {% endblock %}
 {% block content %}
 
-<h1> Profile Page</h1>
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Profile</h1>
+        </div>
+        <div class="col-sm-6">
+            
+        </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-info card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle" src="{{ url_for('static',filename='img/avatar.png') }}" alt="User profile picture">
+                    </div>
+
+                    <h3 class="profile-username text-center">Billy Marte</h3>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Email</b> <a class="float-right">billy@upteamco.com</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Address</b> <a class="float-right">Japan</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Birthday</b> <a class="float-right">12/12/12</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Contact Number</b> <a class="float-right">09123123123123</a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+          <div class="card card card-info card-outline">
+            <div class="card-header p-2">
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#My-Items" data-toggle="tab">My Items</a></li>
+                <li class="nav-item"><a class="nav-link" href="#Add-Item" data-toggle="tab">Add Item</a></li>
+              </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="My-Items">
+                    
+
+                    <table id="Table-My-Items" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product4.jpg') }}" class="user-image" alt="Product Image">
+                            </td>
+                            <td>Hello World</td>
+                            <td>Chanel</td>
+                            <td>Shoulder Bag</td>
+                            <td>Red</td>
+                            <td>10</td>
+                            <td>A+</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product1.jpg') }}" class="user-image" alt="Product Image">
+                            </td>
+                            <td>Hello World2</td>
+                            <td>Chanel</td>
+                            <td>Shoulder Bag</td>
+                            <td>Blue</td>
+                            <td>15</td>
+                            <td>A+</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img style="width: 50px;" src="{{ url_for('static',filename='img/product1.jpg') }}" class="user-image" alt="Product Image">
+                            </td>
+                            <td>Hello World2</td>
+                            <td>Chanel</td>
+                            <td>Shoulder Bag</td>
+                            <td>Blue</td>
+                            <td>15</td>
+                            <td>A+</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                </div>
+
+                <div class="tab-pane" id="Add-Item">
+
+                    <form id="Form-Calculator">
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="alert alert-info fade in alert-dismissible show">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size:20px">×</span>
+                                    </button>    
+                                    <strong>HOoorayt!</strong> 
+                                    Upload your item now :)
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-4">
+                                <input type='file' id="imgInp" />
+                                <img style="width: 300px;" id="blah" src="{{ url_for('static',filename='img/bag.png') }}" alt="your image" />
+                            </div>
+
+                            <div class="col-8">
+
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label style="width: 100%;">Product Name</label>
+                                            <input name="product_name" id="product_name" type="text" class="form-control" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Brand</label>
+                                            <select class="custom-select" name="brand" id="brand_list">
+                                                <option value="louis vuitton">Louis Vuitton </option>
+                                                <option value="gucci">Gucci</option>
+                                                <option value="prada">Prada</option>
+                                                <option value="chanel">Chanel</option>
+                                                <option value="fendi">Fendi</option>
+                                                <option value="burberry">Burberry</option>
+                                                <option value="hermes">Hermes</option>
+                                                <option value="dior">Dior</option>
+                                                <option value="ysl">YSL</option>
+                                                <option value="celine">Celine</option>
+                                                <option value="bottega">Bottega Veneta</option>
+                                                <option value="celine">Celine</option>
+                                                <option value="mcm">MCM</option>
+                                                <option value="balenciaga">Balenciaga</option>
+                                                <option value="chloe">Chloe</option>
+                                                <option value="cartier">Cartier </option>
+                                                <option value="ferragamo">Ferragamo </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Size</label>
+                                            <input name="size" type="text" class="form-control" value="">
+                                        </div>  
+                                        <div class="form-group">
+                                            <label>Color</label>
+                                            <input name="color" type="text" class="form-control" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            <select class="custom-select" name="parent_cat" id="parent_cat_list">
+                                                <option value="bag">Bags</option>
+                                                <option value="slg">SLG</option>
+                                                <option value="costume">Costume</option>
+                                                <option value="jewelry">Jewelry</option>
+                                                <option value="accessories">Accessories</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Style</label>
+                                            <input name="style" type="text" class="form-control" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Material</label>
+                                            <input name="material" type="text" class="form-control" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label style="width: 100%;">Sub Category</label>
+                                            <select class="custom-select" name="product_cat" id="product_cat_list">
+                                                <option value="tote bag">Tote Bag</option>
+                                                <option value="shoulder bag">Shoulder Bag</option>
+                                                <option value="crossbody bag">Crossbody Bag</option>
+                                                <option value="handbag">Handbag</option>
+                                                <option value="satchel">Satchel</option>
+                                                <option value="travel bag">Travel Bag</option>
+                                                <option value="baguette">Baguette</option>
+                                                <option value="boston bag">Boston Bag</option>
+                                                <option value="backpack">Backpack</option>
+                                                <option value="bucket bag">Bucket Bag</option>
+                                                <option value="long wallets">Long Wallets</option>
+                                                <option value="hobo bag">Hobo Bag</option>
+                                                <option value="clutch bag">Clutch Bag</option>
+                                                <option value="belt bag">Belt Bag</option>
+                                                <option value="sunglasses">Sunglasses</option>
+                                                <option value="pouch">Pouch </option>
+                                                <option value="scarves">Scarves </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Rating</label>
+                                            <select class="custom-select" name="rating" id="rating_list">
+                                                <option value="a+">A+</option>
+                                                <option value="a">A</option>
+                                                <option value="ab">AB</option>
+                                                <option value="b+">B+</option>
+                                                <option value="b">B</option>
+                                                <option value="c">C</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="width: 100%;">Retail Price</label>
+                                            <input name="retail_price" type="text" class="form-control" value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divider"></div>
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label style="width: 100%;" for="">Description</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <textarea name="" style="width: 100%;"></textarea>
+                                    </div>
+                                </div>
+
+                                <div id="Price-Slider" style="display: none;">
+                                    <div class="divider"></div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div id="Price-Recommended">
+
+                                            </div>
+                                            <div class="slider-box">
+                                                <input name="price" class="form-control" type="text" id="priceRange" readonly>
+                                                <div id="price-range" class="slider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <br><br>
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-6">
+                                
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-info float-right" type="submit">
+                                    Proccess Item
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                    
+                </div>
+                
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
 
 
 
