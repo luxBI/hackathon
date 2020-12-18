@@ -57,6 +57,7 @@
             <div class="card-header p-2">
               <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" href="#My-Items" data-toggle="tab">My Items</a></li>
+                <li class="nav-item"><a class="nav-link" href="#My-Trade" data-toggle="tab">My Trade</a></li>
                 <li class="nav-item"><a class="nav-link" href="#Add-Item" data-toggle="tab">Add Item</a></li>
               </ul>
             </div><!-- /.card-header -->
@@ -95,6 +96,37 @@
                         {% endfor %}
                     </tbody>
                 </table>
+
+
+                </div>
+
+                <div class="tab-pane" id="My-Trade">
+                    
+
+                    <table id="Table-My-Items" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>From customer</th>
+                                    <th>My Item</th>
+                                    <th>Trade item</th>
+                                    <th>To Pay</th>
+                                    <th>To Receive</th>
+                                    <th>Total Bill</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            {% for item in trade %}
+                                <tr>
+                                    <td>{{item.from_customer_id}}</td>
+                                    <td>{{item.my_item_id}}</td>
+                                    <td>{{item.trade_item_id}}</td>
+                                    <td>{{item.to_pay}}</td>
+                                    <td>{{item.to_receive}}</td>
+                                    <td>{{item.total_bill}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
 
                 </div>
