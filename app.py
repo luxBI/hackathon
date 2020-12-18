@@ -8,7 +8,7 @@ requirements.txt
 
 """
 #Import libraries
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import session, Flask, render_template, redirect, url_for, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, FloatField
@@ -19,6 +19,12 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf.file import FileField, FileRequired
+
+import os.path
+ave_path = 'static/'
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+from flask_wtf.file import FileField
 
 import price_recommender
 import pandas as pd
@@ -55,6 +61,10 @@ class Customers(UserMixin, db.Model):
     credit_card_ccv = db.Column(db.String(20))
     credit_card_expire_month = db.Column(db.String(20))
     credit_card_expire_year = db.Column(db.String(20))
+
+    profile_picture = db.Column(db.String(40))
+    valid_id1 = db.Column(db.String(40))
+    valid_id2 = db.Column(db.String(40))
 
     #contact_number = db.Column(db.String(20))
 
@@ -96,21 +106,21 @@ class RegisterForm(FlaskForm):
                                                     EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
-    first_name = StringField('Firstname', validators=[InputRequired(), Length(min=2, max=30)])
-    last_name = StringField('Lastname', validators=[InputRequired(), Length(min=1, max=30)])
-    middle_name = StringField('Middlename', validators=[InputRequired(), Length(min=2, max=30)])
-    age = StringField('Age', validators=[InputRequired(), Length(min=2, max=30)])
+    first_name = StringField('Firstname')
+    last_name = StringField('Lastname')
+    middle_name = StringField('Middlename')
+    age = StringField('Age')
     valid_id1 = FileField('Valid ID 1')
     valid_id2 = FileField('Valid ID 2')
     profile_picture = FileField('Profile Picture')
-    address = StringField('Address', validators=[InputRequired(), Length(min=2, max=30)])
-    contact_number = StringField('Contact Number', validators=[InputRequired(), Length(min=2, max=30)])
-    birthday = StringField('Birthday', validators=[InputRequired(), Length(min=2, max=30)])
+    address = StringField('Address')
+    contact_number = StringField('Contact Number')
+    birthday = StringField('Birthday')
 
-    credit_card_number = StringField('Card Number', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_ccv = StringField('CCV', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_expire_month = StringField('Expire Month', validators=[InputRequired(), Length(min=2, max=30)])
-    credit_card_expire_year = StringField('Year', validators=[InputRequired(), Length(min=2, max=30)])
+    credit_card_number = StringField('Card Number')
+    credit_card_ccv = StringField('CCV')
+    credit_card_expire_month = StringField('Expire Month')
+    credit_card_expire_year = StringField('Year')
 
 class ProductsForm(FlaskForm):
     customer_email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
@@ -137,6 +147,38 @@ def signup():
     form = RegisterForm()
 
     if form.validate_on_submit():
+
+        profile_picture_path = ""
+        valid_id1_path = ""
+        valid_id2_path = ""
+        
+        uploaded_file = request.files['profile_picture']
+        if uploaded_file.filename != '':
+
+            profile_picture_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
+            uploaded_file.save(profile_picture_path)
+            print(profile_picture_path)
+            # vectorize = vectorize_image_ver2.vectorize_image(input)
+            # print(vectorize)
+
+        uploaded_file = request.files['valid_id1']
+        if uploaded_file.filename != '':
+
+            valid_id1_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
+            uploaded_file.save(valid_id1_path)
+            print(valid_id1_path)
+            # vectorize = vectorize_image_ver2.vectorize_image(input)
+            # print(vectorize)
+
+        uploaded_file = request.files['valid_id2']
+        if uploaded_file.filename != '':
+
+            valid_id2_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
+            uploaded_file.save(valid_id2_path)
+            print(valid_id2_path)
+            # vectorize = vectorize_image_ver2.vectorize_image(input)
+            # print(vectorize)
+            
         hashed_password = generate_password_hash(form.password.data, method='sha256')
         new_user = Customers(
             username=form.username.data,
@@ -153,10 +195,16 @@ def signup():
             credit_card_expire_month=form.credit_card_expire_month.data,
             credit_card_expire_year=form.credit_card_expire_year.data,
             password=hashed_password,
+            profile_picture=profile_picture_path,
+            valid_id1=valid_id1_path,
+            valid_id2=valid_id2_path,
+
         )
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+            
+        # session['user'] = new_user
+        return redirect(url_for('profile'))
         #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
     return render_template('signup.html', form=form)
 
@@ -238,6 +286,7 @@ def estimate():
 @login_required
 def logout():
     logout_user()
+    # session.pop('user', None)
     return redirect(url_for('index'))
 
 # ================================================================================================================================================================================================

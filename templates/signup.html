@@ -7,7 +7,7 @@
 	<div class="container-fluid">
         <br>
         
-        <form class="form-signin" method="POST" action="/signup">
+        <form class="form-signin" enctype="multipart/form-data" method="POST" action="/signup">
             {{ form.hidden_tag() }}
 
             <div class="row">
@@ -20,8 +20,48 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card card-default">
+
+                                <div class="col-md-4">
+                                    <div class="card card-info">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Photo</h3>
+                                        </div>
+                                        
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="width: 100%;" for="">Profile Picture</label>
+                                                    <br>
+                                                    <input type='file' name="profile_picture" id="Profile-Picture" />
+                                                    <img style="width: 100px;" id="Profile-Picture-Image" src="{{ url_for('static',filename='img/avatar.png') }}" alt="your image" />
+                                                    <!-- {{ wtf.form_field(form.profile_picture) }} -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="width: 100%;" for="">1st Valid ID</label>
+                                                    <br>
+                                                    <input type='file' name="valid_id1" id="Valid-ID-1" />
+                                                    <img style="width: 100px;" id="Valid-ID-1-Image" src="{{ url_for('static',filename='img/avatar.png') }}" alt="your image" />
+                                                    <!-- {{ wtf.form_field(form.valid_id1) }} -->
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label style="width: 100%;" for="">2nd Valid ID</label>
+                                                    <br>
+                                                    <input type='file' name="valid_id2" id="Valid-ID-2" />
+                                                    <img style="width: 100px;" id="Valid-ID-2-Image" src="{{ url_for('static',filename='img/avatar.png') }}" alt="your image" />
+                                                    <!-- {{ wtf.form_field(form.valid_id2) }} -->
+                                                </div>
+                                                <div class="col-6"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="card card-info">
                                         <div class="card-header">
                                             <h3 class="card-title">Personal Info</h3>
                                         </div>
@@ -46,12 +86,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
 
                                     </div>
                                 </div>
-                
+
+                            </div>
+
+                            <div class="row">
+
                                 <div class="col-md-6">
-                                    <div class="card card-default">
+                                    <div class="card card-info">
                                         <div class="card-header">
                                             <h3 class="card-title">Card Details</h3>
                                         </div>
@@ -70,12 +115,8 @@
                                     </div>
                                 </div>
 
-                            </div>
-
-                            <div class="row">
-
                                 <div class="col-md-6">
-                                    <div class="card card-default">
+                                    <div class="card card-info">
                                         <div class="card-header">
                                             <h3 class="card-title">Password</h3>
                                         </div>
@@ -89,29 +130,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="card card-default">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Files</h3>
-                                        </div>
-                                        
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    {{ wtf.form_field(form.profile_picture) }}
-                                                </div>
-                                                <div class="col-md-4">
-                                                    {{ wtf.form_field(form.valid_id1) }}
-                                                </div>
-                                                <div class="col-md-4">
-                                                    {{ wtf.form_field(form.valid_id2) }}
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
 
