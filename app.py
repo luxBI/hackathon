@@ -29,9 +29,6 @@ from flask_wtf.file import FileField
 import pickle
 import vectorize_image_ver2
 import joblib
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.ensemble import AdaBoostClassifier
 
 import price_recommender
 import pandas as pd
@@ -103,7 +100,7 @@ def load_user(user_id):
 
 class LoginForm(FlaskForm):
     username = StringField('Enter Username', validators=[InputRequired(), Length(min=4, max=80)])
-    password = PasswordField('Enter Password', validators=[InputRequired(), Length(min=8, max=80)])
+    password = PasswordField('Enter Password', validators=[InputRequired(), Length(min=3, max=80)])
     remember = BooleanField('Remember Me')
 
 class RegisterForm(FlaskForm):
@@ -144,9 +141,10 @@ class ProductsForm(FlaskForm):
 # Connecting to www.website.com/home
 @app.route("/home")
 @app.route('/')
+@login_required
 def index():
     #user = db.session.query(Customers.username)
-    return render_template('index.html')
+    return render_template('index.html', user=current_user)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -228,17 +226,33 @@ def login():
     return render_template('login.html', form=form)
 
 @app.route('/newsfeed')
+@login_required
 def newsfeed():
     """
     Newsfeed page
     """
-    return render_template('newsfeed.html')
+    return render_template('newsfeed.html', user=current_user)
+
+@app.route('/marketplace')
+@login_required
+def marketplace():
+    """
+    Marketplace page
+    """
+    return render_template('marketplace.html', user=current_user)
+
+@app.route('/product')
+@login_required
+def product():
+    """
+    Product page
+    """
+    return render_template('product.html', user=current_user)
 
 @app.route('/profile', methods=['GET','POST'])
-# @login_required
+@login_required
 def profile():
-
-    return render_template('profile.html')
+    return render_template('profile.html', user=current_user)
 
 @app.route('/sell', methods=['GET','POST'])
 @login_required
@@ -293,13 +307,73 @@ def add_item():
                 category_output = loaded_model.predict(vectorize)
                 print(category_output)
 
+                model_product_cat_back  = pickle.load(open('static/models/sub_category/model_product_cat_backpack.pickle', 'rb'))
+                is_back = model_product_cat_back.predict(vectorize)[0]
+
+                model_product_cat_travel  = pickle.load(open('static/models/sub_category/model_product_cat_travel bag.pickle', 'rb'))
+                is_travel = model_product_cat_travel.predict(vectorize)[0]
+
+                model_product_cat_tote  = pickle.load(open('static/models/sub_category/model_product_cat_tote bag.pickle', 'rb'))
+                is_tote = model_product_cat_tote.predict(vectorize)[0]
+
+                model_product_cat_shoulder  = pickle.load(open('static/models/sub_category/model_product_cat_shoulder bag.pickle', 'rb'))
+                is_shoulder = model_product_cat_shoulder.predict(vectorize)[0]
+
+                model_product_cat_satchel  = pickle.load(open('static/models/sub_category/model_product_cat_satchel.pickle', 'rb'))
+                is_satchel = model_product_cat_satchel.predict(vectorize)[0]
+
+                model_product_cat_hobo  = pickle.load(open('static/models/sub_category/model_product_cat_hobo bag.pickle', 'rb'))
+                is_hobo = model_product_cat_hobo.predict(vectorize)[0]
+
+                model_product_cat_handbag  = pickle.load(open('static/models/sub_category/model_product_cat_handbag.pickle', 'rb'))
+                is_hand = model_product_cat_handbag.predict(vectorize)[0]
+
+                model_product_cat_clutch  = pickle.load(open('static/models/sub_category/model_product_cat_clutch bag.pickle', 'rb'))
+                is_clutch = model_product_cat_clutch.predict(vectorize)[0]
+
+                model_product_cat_business  = pickle.load(open('static/models/sub_category/model_product_cat_business bag.pickle', 'rb'))
+                is_business = model_product_cat_business.predict(vectorize)[0]
+
+                model_product_cat_bucket  = pickle.load(open('static/models/sub_category/model_product_cat_bucket bag.pickle', 'rb'))
+                is_bucket = model_product_cat_bucket.predict(vectorize)[0]
+
+                model_product_cat_boston  = pickle.load(open('static/models/sub_category/model_product_cat_boston bag.pickle', 'rb'))
+                is_boston = model_product_cat_boston.predict(vectorize)[0]
+
+                model_product_cat_belt  = pickle.load(open('static/models/sub_category/model_product_cat_belt bag.pickle', 'rb'))
+                is_belt = model_product_cat_belt.predict(vectorize)[0]
+
                 # 1 - slg
                 # 0 - bag
                 dummy = {'slg': 1, 'bag':0}
-                if dummy[parent_cat] == category_output[0]:
-                    pred = price_recommender.recommend_price(df_XY, product_name, rating, brand, product_cat, parent_cat, size)
-                    a,b, = pred
+                dummy_cat = {
+                'travel_bag': is_travel,
+                'tote_bag': is_tote,
+                'shoulder_bag': is_shoulder,
+                'satchel': is_satchel,
+                'hobo_bag': is_hobo,
+                'handbag': is_hand,
+                'clutch': is_clutch,
+                'business_bag': is_business,
+                'boston_bag': is_boston,
+                'belt_bag': is_belt,
+                'backpack': is_back
+                }
+
+                model_checker = 1
+                result_parent_cat = "bag" if category_output[0] == 0 else "slg"
+                if result_parent_cat == parent_cat:
+                    if dummy_cat[product_cat]:
+                        print('hello world')
+                        print(product_name, rating, brand, product_cat, parent_cat, size)
+                        pred = price_recommender.recommend_price(df_XY, product_name, rating, brand, ' '.join(product_cat.split('_')), parent_cat, size)
+                        a,b, = pred
+                    else:
+                        model_checker = 0
                 else:
+                    model_checker = 0
+
+                if not model_checker:
                     return jsonify({'message': 'Please check product image!'})
 
         except ValueError as e:
