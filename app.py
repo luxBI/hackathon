@@ -72,6 +72,16 @@ class Customers(UserMixin, db.Model):
 
     #contact_number = db.Column(db.String(20))
 
+class Trade(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer)
+    from_customer_id = db.Column(db.Integer)
+    my_item_id = db.Column(db.Integer)
+    trade_item_id = db.Column(db.Integer)
+    to_pay = db.Column(db.Integer)
+    to_receive = db.Column(db.Integer)
+    total_bill = db.Column(db.Integer)
+
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer)
@@ -146,7 +156,7 @@ class ProductsForm(FlaskForm):
 @app.route('/')
 def index():
     #user = db.session.query(Customers.username)
-    return render_template('index.html', user=current_user)
+    return render_template('index.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -242,22 +252,138 @@ def marketplace():
     Marketplace page
     """
 
-    items = Products.query
+    items = db.session.query(Customers.address,Products.product_name,Products.price,Products.photo_path,Products.brand,Products.id).join(Customers, Customers.id == Products.customer_id).all()
+    # items = db.session.query(Products).join(Customers, Customers.id == Products.customer_id).all()
     return render_template('marketplace.html', user=current_user, items=items)
 
-@app.route('/product')
+@app.route('/trade', methods=['GET','POST'])
+@login_required
+def trade():
+
+    customer_id = request.form['customer_id']
+    from_customer_id = request.form['from_customer_id']
+    my_item_id = request.form['my_item_id']
+    trade_item_id = request.form['trade_item_id']
+    to_pay = request.form['to_pay']
+    to_receive = request.form['to_receive']
+    total_bill = request.form['total_bill']
+    new_product = Trade(
+        customer_id = customer_id,
+        from_customer_id = from_customer_id,
+        my_item_id = my_item_id,
+        trade_item_id = trade_item_id,
+        to_pay = to_pay,
+        to_receive = to_receive,
+        total_bill = total_bill,
+    )
+    db.session.add(new_product)
+    db.session.commit()
+
+    return redirect(url_for('profile'))
+
+@app.route('/get_product', methods=['GET','POST'])
+@login_required
+def get_product():
+
+    product_id = request.args['product_id']
+    my_product_id = request.args['my_item']
+    item = Products.query.filter_by(id=product_id).first()
+    my_items = Products.query.filter_by(id=my_product_id).first()
+
+    to_pay = 0
+    to_receive = 0
+    duties = 0
+    logistics = 0
+    service_fee = 0
+    total_bill = 0
+
+    if my_items:
+        price_diff = int(my_items.price) - int(item.price)
+        print(price_diff)
+
+        if price_diff < 0:
+            to_pay = abs(price_diff)
+        else:
+            to_receive = price_diff
+
+        duties = 0
+        logistics = 0
+        service_fee = 0
+        total_bill = 0
+
+    return jsonify({
+        'my_product_id': my_product_id,
+        'product_id': product_id,
+        'product_name': my_items.product_name,
+        'brand': my_items.brand,
+        'description': my_items.description,
+        'parent_category': my_items.parent_category,
+        'sub_category': my_items.sub_category,
+        'rating': my_items.rating,
+        'material': my_items.material,
+        'color': my_items.color,
+        'size': my_items.size,
+        'price': my_items.price,
+        'to_pay': to_pay,
+        'to_receive': to_receive,
+        'duties': duties,
+        'logistics': logistics,
+        'service_fee': service_fee,
+        'total_bill': total_bill,
+    })
+
+@app.route('/product', methods=['GET','POST'])
 @login_required
 def product():
-    """
-    Product page
-    """
-    return render_template('product.html', user=current_user)
+
+    product_id = request.args['product_id']
+    from_customer_id = 0
+    item = Products.query.filter_by(id=product_id).first()
+    my_items = Products.query.filter_by(customer_id=current_user.id)
+
+    to_pay = 0
+    to_receive = 0
+    duties = 0
+    logistics = 0
+    service_fee = 0
+    total_bill = 0
+
+    if my_items:
+        price_diff = int(my_items[0].price) - int(item.price)
+        print(price_diff)
+
+        if price_diff < 0:
+            to_pay = abs(price_diff)
+        else:
+            to_receive = price_diff
+
+        duties = 0
+        logistics = 0
+        service_fee = 0
+        total_bill = 0
+
+    return render_template(
+        'product.html', 
+        user=current_user, 
+        from_customer_id=from_customer_id,
+        my_item_id=my_items[0].id,
+        product_id = product_id,
+        item=item, 
+        my_items=my_items,
+        to_pay=to_pay,
+        to_receive=to_receive,
+        duties=duties,
+        logistics=logistics,
+        service_fee=service_fee,
+        total_bill=total_bill,
+    )
 
 @app.route('/profile', methods=['GET','POST'])
 @login_required
 def profile():
     items = Products.query.filter_by(customer_id=current_user.id)
-    return render_template('profile.html', user=current_user, items=items)
+    trade = Trade.query.filter_by(customer_id=current_user.id)
+    return render_template('profile.html', user=current_user, items=items, trade=trade)
 
 @app.route('/sell', methods=['GET','POST'])
 @login_required
