@@ -8,7 +8,7 @@ requirements.txt
 
 """
 #Import libraries
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SelectField, FloatField
@@ -22,12 +22,7 @@ from flask_wtf.file import FileField, FileRequired
 
 import price_recommender
 import pandas as pd
-df = pd.read_csv('product_cost.csv',
-                 parse_dates=[
-                              'acquire_date',
-                              'published_date'
-                 ])
-df_raw = df.loc[~df.index_id.isna()].copy()
+df_XY = pd.read_csv('df_XY.csv').drop('Unnamed: 0', axis=1)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 app = Flask(__name__) # Start of Flask App
 bootstrap = Bootstrap(app) # For WTForms
@@ -187,7 +182,7 @@ def newsfeed():
     return render_template('newsfeed.html')
 
 @app.route('/profile', methods=['GET','POST'])
-@login_required
+# @login_required
 def profile():
 
     return render_template('profile.html')
@@ -228,15 +223,13 @@ def estimate():
             brand = brand.lower()
             product_cat = product_cat.lower()
 
-            pred = price_recommender.recommend_price(df_raw, product_name, rating, brand, product_cat, parent_cat, size)
+            pred = price_recommender.recommend_price(df_XY, product_name, rating, brand, product_cat, parent_cat, size)
             a,b, = pred
-            print(a)
-            print(b)
+            
 
         except ValueError as e:
-            print(e)
-            return 'Please check the values!'
-    return render_template('estimate.html',a=a,b=b)
+            return jsonify({'message': 'Please check the values!'})
+    return jsonify({'a': a, 'b': b, 'message': ""})
 
 
 
