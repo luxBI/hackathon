@@ -125,6 +125,8 @@
 <script>
     $(document).ready(function()
     {
+
+        $("#Upload-Item").hide();
         $('#Form-Calculator').on("submit", function(event)
         {
             event.preventDefault();
@@ -142,8 +144,19 @@
                 success      : function(data)
                 {
 
+                    if ($("#Button-Name").val() == "upload")
+                    {
+                        alert(`${data.message}`);
+                        location.reload();
+                        return false;
+                    }
+
                     if (data.message == "")
                     {
+                        $("#Button-Name").val("upload");
+                        $("#Process-Item").hide();
+                        $("#Upload-Item").show();
+
                         $("#Price-Recommended").html(`<h3>Recommended Price: ${data.a} - ${data.b} USD</h3>`);
                         $("#Price-Slider").show();
 
