@@ -141,7 +141,7 @@ class ProductsForm(FlaskForm):
 # Connecting to www.website.com/home
 @app.route("/home")
 @app.route('/')
-@login_required
+#@login_required
 def index():
     #user = db.session.query(Customers.username)
     return render_template('index.html', user=current_user)
