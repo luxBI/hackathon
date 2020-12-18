@@ -26,6 +26,13 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from flask_wtf.file import FileField
 
+import pickle
+import vectorize_image_ver2
+import joblib
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import AdaBoostClassifier
+
 import price_recommender
 import pandas as pd
 df_XY = pd.read_csv('df_XY.csv').drop('Unnamed: 0', axis=1)
@@ -101,8 +108,8 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=30)])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80),
+    username = StringField('Username', validators=[InputRequired(), Length(min=3, max=11)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=3, max=11),
                                                     EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
 
@@ -158,8 +165,6 @@ def signup():
             profile_picture_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
             uploaded_file.save(profile_picture_path)
             print(profile_picture_path)
-            # vectorize = vectorize_image_ver2.vectorize_image(input)
-            # print(vectorize)
 
         uploaded_file = request.files['valid_id1']
         if uploaded_file.filename != '':
@@ -257,9 +262,12 @@ def sell():
 def calculator():
     return render_template('calculator.html')
 
-@app.route('/estimate', methods=['GET','POST'])
+@app.route('/add_item', methods=['GET','POST'])
 # @login_required
-def estimate():
+def add_item():
+
+    a = 0
+    b = 0
     if request.method == 'POST':
         try:
             product_name = request.form['product_name']
@@ -271,9 +279,28 @@ def estimate():
             brand = brand.lower()
             product_cat = product_cat.lower()
 
-            pred = price_recommender.recommend_price(df_XY, product_name, rating, brand, product_cat, parent_cat, size)
-            a,b, = pred
-            
+            uploaded_file = request.files['product_photo']
+            if uploaded_file.filename != '':
+
+                product_photo_path = os.path.join(ave_path,'profile/',uploaded_file.filename)
+                uploaded_file.save(product_photo_path)
+                print(product_photo_path)
+
+                vectorize = vectorize_image_ver2.vectorize_image(product_photo_path)
+                print(vectorize)
+                file_ = open('adagbm_parent_cat_ver3.joblib', 'rb')
+                loaded_model = joblib.load(file_)
+                category_output = loaded_model.predict(vectorize)
+                print(category_output)
+
+                # 1 - slg
+                # 0 - bag
+                dummy = {'slg': 1, 'bag':0}
+                if dummy[parent_cat] == category_output[0]:
+                    pred = price_recommender.recommend_price(df_XY, product_name, rating, brand, product_cat, parent_cat, size)
+                    a,b, = pred
+                else:
+                    return jsonify({'message': 'Please check product image!'})
 
         except ValueError as e:
             return jsonify({'message': 'Please check the values!'})

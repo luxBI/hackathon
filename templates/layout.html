@@ -122,11 +122,14 @@
             $("#Price-Slider").hide();
             $("#Price-Recommended").html("");
 
+            var formData = new FormData($(this)[0]);
             $.ajax(
             {
-                'url'        : `/estimate`,
+                'url'        : `/add_item`,
                 'method'     : 'POST',
-                'data'       : $(this).serialize(),
+                'data'       :  formData,
+                processData: false,
+                contentType: false,
                 success      : function(data)
                 {
 
@@ -172,7 +175,7 @@
         });
 
         $("#imgInp").change(function() {
-            readURL(this);
+            readURL(this, "Product-Photo");
         });
 
         $("#Profile-Picture").change(function() {
