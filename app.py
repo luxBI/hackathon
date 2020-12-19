@@ -303,13 +303,10 @@ def get_product():
 
         if price_diff < 0:
             to_pay = abs(price_diff)
+            total_bill = to_pay
         else:
             to_receive = price_diff
-
-        duties = 0
-        logistics = 0
-        service_fee = 0
-        total_bill = 0
+            total_bill = to_receive
 
     return jsonify({
         'my_product_id': my_product_id,
@@ -354,13 +351,10 @@ def product():
 
         if price_diff < 0:
             to_pay = abs(price_diff)
+            total_bill = to_pay
         else:
             to_receive = price_diff
-
-        duties = 0
-        logistics = 0
-        service_fee = 0
-        total_bill = 0
+            total_bill = to_receive
 
     return render_template(
         'product.html', 
