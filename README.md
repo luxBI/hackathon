@@ -5,3 +5,7 @@
 
 3.) python app.py
 
+or 
+
+https://pixul.herokuapp.com/
+
