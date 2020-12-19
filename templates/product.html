@@ -13,9 +13,14 @@
                 
                 <div class="col-4">
                     
-                    <div class="card">
+                    <div class="card card-info">
+                        
+                        <div class="card-header">
+                            <h3>Marketplace Item</h3>
+                        </div>
+
                         <div class="card-body">
-        
+
                             <div class="row">
                                 <div class="col-6">
         
@@ -84,16 +89,21 @@
 
                 <div class="col-4">
                     
-                    <div class="card">
+                    <div class="card card-default">
+
+                        <div class="card-header">
+                            <h3>Payment Details</h3>
+                        </div>
+
                         <div class="card-body">
-                            <h5 id="To-Pay">To Pay: {{to_pay}}</h5>
-                            <h5 id="To-Receive">To Receive: {{to_receive}}</h5>
-                            <h5 id="To-Duties">Duties:  {{duties}}</h5>
-                            <h5 id="To-Logistics">Logistics:  {{logistics}}</h5>
-                            <h5 id="To-Service-Fee">Service Fee:  {{service_fee}}</h5>
+                            <h5 id="To-Pay">To Pay: $ {{to_pay}}</h5>
+                            <h5 id="To-Receive">To Receive: $ {{to_receive}}</h5>
+                            <h5 id="To-Duties">Duties: $ {{duties}}</h5>
+                            <h5 id="To-Logistics">Logistics: $ {{logistics}}</h5>
+                            <h5 id="To-Service-Fee">Service Fee: $ {{service_fee}}</h5>
                             <br>
                             <div class="divider"></div>
-                            <!-- <h5 id="To-Total">Total Bill:  {{total_bill}}</h5> -->
+                            <h5 id="To-Total">Total Bill: $ {{total_bill}}</h5>
 
                             <div class="mt-4">
                                 <form action="trade" method="POST">
@@ -117,7 +127,12 @@
                 
                 <div class="col-4">
                     
-                    <div class="card">
+                    <div class="card card-info">
+
+                        <div class="card-header">
+                            <h3>My Item</h3>
+                        </div>
+
                         <div class="card-body">
         
                             <div class="row">

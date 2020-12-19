@@ -263,12 +263,12 @@
                     $("#Item-Product-Size").html(data.size);
                     $("#Item-Product-Price").html(`$ ${data.price}`);
 
-                    $("#To-Pay").html(`To Pay: ${data.to_pay}`);
-                    $("#To-Receive").html(`To Receive: ${data.to_receive}`);
-                    $("#To-Duties").html(`Duties: ${data.duties}`);
-                    $("#To-Logistics").html(`Logistics: ${data.logistics}`);
-                    $("#To-Service-Fee").html(`Service Fee: ${data.service_fee}`);
-                    $("#To-Total").html(`Total Bill: ${data.total_bill}`);
+                    $("#To-Pay").html(`To Pay: $ ${data.to_pay}`);
+                    $("#To-Receive").html(`To Receive: $ ${data.to_receive}`);
+                    $("#To-Duties").html(`Duties: $ ${data.duties}`);
+                    $("#To-Logistics").html(`Logistics: $ ${data.logistics}`);
+                    $("#To-Service-Fee").html(`Service Fee: $ ${data.service_fee}`);
+                    $("#To-Total").html(`Total Bill: $ ${data.total_bill}`);
 
                     $("#Input-My-Item-ID").val(data.my_product_id);
                     $("#Input-To-Pay").val(data.to_pay);
