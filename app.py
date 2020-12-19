@@ -526,10 +526,10 @@ def add_item():
                     model_checker = 0
 
                 if not model_checker:
-                    return jsonify({'message': 'Please check product image!'})
+                    return jsonify({'message': 'Product info did not match to the image.'})
 
         except ValueError as e:
-            return jsonify({'message': 'Please check the values!'})
+            return jsonify({'message': 'Please check the input!'})
 
     return jsonify({'a': a, 'b': b, 'message': ""})
 
